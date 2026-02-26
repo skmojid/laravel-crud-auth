@@ -61,11 +61,18 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
         return view('products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:5',
             'sku' => 'required|min:3|unique:products,sku,' . $product->id,
@@ -101,6 +108,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         if ($product->image && File::exists(public_path('uploads/products/' . $product->image))) {
             File::delete(public_path('uploads/products/' . $product->image));
         }
@@ -110,6 +121,10 @@ class ProductController extends Controller
 
     public function deleteAll()
     {
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         try {
             DB::transaction(function () {
                 DB::statement('SET FOREIGN_KEY_CHECKS=0;');
