@@ -75,7 +75,6 @@ php artisan key:generate
 
 ---
 
-# 🎯 Ab Kya Karein?
 
 1️⃣ Default Laravel README delete karo  
 2️⃣ Isko paste karo  
